@@ -28,6 +28,14 @@ body {
   display: flex;
   justify-content: flex-end;
   padding: 20px;
+  gap: 80px;
+  align-items: center;
+}
+
+.Form__input {
+  text-align: center;
+  width: 250px;
+  height: 30px;
 }
 
 .List-item {
