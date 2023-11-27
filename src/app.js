@@ -1,68 +1,29 @@
 import React, { useState } from "react";
 import { createElement } from "./utils.js";
 import "./styles.css";
-
+import {
+  creatItems,
+  HandleSelectItem,
+  HandleCount,
+  ControllerSelectItem,
+} from "./makeItems.js";
 /**
  * Приложение
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
 function App({ store }) {
+  // constants
   const [titleList, setTitleList] = useState(``);
   const list = store.getState().list;
+  const [ask, setAsk] = useState([`Выделили`, `раз`]);
+
+  // function
 
   // Работа в выделением по клику Item , счетчик кликов
   const writeForm = (e) => {
     setTitleList(e.target.value);
   };
-  for (let index = 0; index < list.length; index++) {
-    if (
-      list[index].click % 10 == 2 ||
-      list[index].click % 10 == 3 ||
-      list[index].click % 10 == 4
-    ) {
-      if (list[index].click > 10 && list[index].click < 21) {
-        list[index].once = `раз`;
-      } else {
-        list[index].once = `раза`;
-      }
-    } else {
-      list[index].once = `раз`;
-    }
-  }
-  const HandleSelectItem = (e) => {
-    let condition = true;
-    for (let index = 0; index < list.length; index++) {
-      if (list[index].selected) {
-        condition = false;
-      }
-      if (list[index].code == e) {
-        if (list[index].selected == true) {
-          store.selectItem(e);
-        }
-      }
-    }
-    if (condition) {
-      store.selectItem(e);
-    }
-  };
-
-  // Добавление новых Item
-  const creatItems = () => {
-    const random = () => {
-      let randID = Math.floor(Math.random() * 9999);
-      for (let index = 0; index < list.length; index++) {
-        if (randID == list[index].code) {
-          random();
-        }
-      }
-      return randID;
-    };
-    let randID = random();
-    store.addItem(randID, titleList);
-    setTitleList(``);
-  };
-
   return (
     <div className="App">
       <div className="App-head">
@@ -78,7 +39,11 @@ function App({ store }) {
           value={titleList}
           onChange={(e) => writeForm(e)}
         />
-        <button onClick={() => creatItems()}>Добавить</button>
+        <button
+          onClick={() => (creatItems(titleList, list, store), setTitleList(``))}
+        >
+          Добавить
+        </button>
       </div>
       <div className="App-center">
         <div className="List">
@@ -86,7 +51,10 @@ function App({ store }) {
             <div key={item.code} className="List-item">
               <div
                 className={"Item" + (item.selected ? " Item_selected" : "")}
-                onClick={() => HandleSelectItem(item.code)}
+                onClick={() => (
+                  HandleSelectItem(item.code, list, store),
+                  ControllerSelectItem(true)
+                )}
               >
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">
@@ -95,13 +63,17 @@ function App({ store }) {
                     ""
                   ) : (
                     <span>
-                      | Выделяли: {item.click} {item.once}
+                      | {HandleCount(list, ask)} : {item.click} {item.once}
                     </span>
                   )}
                 </div>
 
                 <div className="Item-actions">
-                  <button onClick={() => store.deleteItem(item.code)}>
+                  <button
+                    onClick={() => (
+                      store.deleteItem(item.code), ControllerSelectItem(false)
+                    )}
+                  >
                     Удалить
                   </button>
                 </div>
