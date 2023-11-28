@@ -36,7 +36,6 @@ export function HandleSelectItem(e, list, store) {
 // Выведение и склонение слов из полученного аргумента
 
 export function HandleCount(list, ask) {
-  const onse = ask[1];
   for (let index = 0; index < list.length; index++) {
     if (
       list[index].click % 10 == 2 ||
@@ -44,12 +43,12 @@ export function HandleCount(list, ask) {
       list[index].click % 10 == 4
     ) {
       if (list[index].click > 10 && list[index].click < 21) {
-        list[index].once = onse;
+        list[index].once = ask[1];
       } else {
-        list[index].once = onse + `a`;
+        list[index].once = ask[2];
       }
     } else {
-      list[index].once = onse;
+      list[index].once = ask[1];
     }
   }
   return ask[0];

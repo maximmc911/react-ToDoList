@@ -16,7 +16,7 @@ function App({ store }) {
   // constants
   const [titleList, setTitleList] = useState(``);
   const list = store.getState().list;
-  const [ask, setAsk] = useState([`Выделили`, `раз`]);
+  const [ask, setAsk] = useState([`Выделили`, `раз`, `раза`]);
 
   // function
 
