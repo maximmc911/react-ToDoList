@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import s from './style.module.css'  
-import List from '../list'
-import { formatCurrency,  idItem , handleDeleteIdItem  } from '../UI/formatCurrency'
+import List from '../list/index.js'
+import { formatCurrency,  idItem , handleDeleteIdItem  } from '../UI/formatCurrency.js'
 
 
 

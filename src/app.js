@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from 'react';
-import List from "./components/list";
-import Controls from "./components/controls";
-import Head from "./components/head";
-import PageLayout from "./components/page-layout";
+import List from "./components/list/index.js";
+import Controls from "./components/controls/index.js";
+import Head from "./components/head/index.js";
+import PageLayout from "./components/page-layout/index.js";
 
 
 
