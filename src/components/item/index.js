@@ -9,29 +9,30 @@ function Item(props) {
   // Счётчик выделений
   const [count, setCount] = useState(0);
 
-  const handleClick =(e) =>{
-    console.log(`работает! ${e}`);
-  }
+
 
   const callbacks = {
     onClick: () => {
       props.onSelect(props.item.code);
       if (!props.item.selected) {
         setCount(count + 1);
-       handleCheckbag(1)
-       handleCheckMoney(props.item.price)
-
+       handleCheckbag(1 , 0)
+       handleCheckMoney(props.item.price , 0 )
+       
       }
     },
     onDelete : () => {
       props.onSelect(props.item.code);
       if (!props.item.selected) {
         props.item.delete= true
+        handleCheckMoney(props.item.price , props.item.count )
+        handleCheckbag(1 , props.item.count)
         handleDeleteIdItem(props.item.code)
-
+        
       }else{
         props.item.delete= true
         handleDeleteIdItem(props.item.code)
+        handleCheckbag(1 , props.item.count)
         
       }
     }

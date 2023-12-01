@@ -8,15 +8,25 @@ export const formatCurrency = (amount) => {
 
   export let checkBag =0 ;
 
-export const handleCheckbag = (check) =>{
-    checkBag += check;
+export const handleCheckbag = (check, count) =>{
+    if (count == 0) {
+        checkBag += check;
+        
+    } else {
+        checkBag -= count
+    }
 }
   
 
 export let checkMoney =0 ;
 
-export const handleCheckMoney = (check) =>{
-    checkMoney += check;
+export const handleCheckMoney = (check , arg) =>{
+    if (arg == 0) {
+        checkMoney += check;
+        
+    } else {
+        checkMoney -= check*arg
+    }
 }
 
 export let idItem = null;
