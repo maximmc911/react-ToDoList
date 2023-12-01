@@ -7,8 +7,6 @@ import { formatCurrency,  idItem , handleDeleteIdItem  } from '../UI/formatCurre
 
 const ModalWindow =({list, open}) => {
     const [close, setClose] = useState(true);
-
-
     const lists = []
     let check = 0;
 
@@ -19,18 +17,22 @@ const ModalWindow =({list, open}) => {
         if (list[key].count) {
             lists.push(list[key])
             check += (list[key].price * list[key].count);
-     
-          
+            console.log(lists);
+            if(list[key].delete){
+                lists.pop(list[key]);
+                check-=(list[key].price * list[key].count);
+            }
         }
     }
     
-    
+
 
 
     useEffect(() => {
         setClose(!close)
      
     }, [open])
+ 
   return (
       <>
     {<div className={(close ) ? s.bg : s.bg_close} onClick={handleClose}>

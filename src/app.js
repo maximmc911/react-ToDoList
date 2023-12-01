@@ -36,7 +36,9 @@ function App({store}) {
       <Controls list={list} onAdd={callbacks.onAddItem}/>
       <List list={list}
             onDeleteItem={callbacks.onDeleteItem}
-            onSelectItem={callbacks.onSelectItem}/>
+            onSelectItem={callbacks.onSelectItem}
+            
+            />
     </PageLayout>
 
     </>

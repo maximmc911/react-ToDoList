@@ -4,13 +4,17 @@ import Item from "../item/index.js";
 import './style.css';
 
 
-function List({list, onSelectItem, ...other}) {
+function List({list, onSelectItem, onDeleteItem, ...other}) {
 
+
+
+
+  
   return (
     <div className='List'>{
       list.map(item =>
-        <div key={item.code} className='List-item'>
-          <Item item={item}  onSelect={onSelectItem} close={other}/>
+        <div key={item.code} className='List-item' >
+         <Item item={item}  onSelect={onSelectItem} close={other} />
         </div>
       )}
     </div>

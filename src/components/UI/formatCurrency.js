@@ -18,6 +18,7 @@ export let checkMoney =0 ;
 export const handleCheckMoney = (check) =>{
     checkMoney += check;
 }
+
 export let idItem = null;
 
 export const handleDeleteIdItem = (check) =>{

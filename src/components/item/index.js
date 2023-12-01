@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
-import {handleCheckbag, handleCheckMoney} from '../UI/formatCurrency.js'
+import {handleCheckbag, handleCheckMoney, handleCheckMoney1} from '../UI/formatCurrency.js'
 import './style.css';
 import {formatCurrency, handleDeleteIdItem} from '../UI/formatCurrency.js'
 
@@ -9,6 +9,9 @@ function Item(props) {
   // Счётчик выделений
   const [count, setCount] = useState(0);
 
+  const handleClick =(e) =>{
+    console.log(`работает! ${e}`);
+  }
 
   const callbacks = {
     onClick: () => {
@@ -17,17 +20,27 @@ function Item(props) {
         setCount(count + 1);
        handleCheckbag(1)
        handleCheckMoney(props.item.price)
+
       }
     },
-    onDelete : (e) => {
-      handleDeleteIdItem(e)
-  console.log(`работает`);
-  
-    }
-   
-  }
+    onDelete : () => {
+      props.onSelect(props.item.code);
+      if (!props.item.selected) {
+        props.item.delete= true
+        handleDeleteIdItem(props.item.code)
 
+      }else{
+        props.item.delete= true
+        handleDeleteIdItem(props.item.code)
+        
+      }
+    }
+    
+  }
+  
   return (
+    <>
+
     <div className='Item' 
       >
       <div className='Item-code'>{props.item.code}</div>
@@ -48,7 +61,7 @@ function Item(props) {
         </button>
         ): 
         (
-        <button onClick={callbacks.onDelete(props.item)}>
+        <button onClick={callbacks.onDelete} >
           Удалить
         </button>
         )
@@ -56,6 +69,8 @@ function Item(props) {
      
       </div>
     </div>
+
+    </>
   );
 }
 
@@ -70,11 +85,12 @@ Item.propTypes = {
   onSelect: PropTypes.func
 };
 
-/* Item.defaultProps = {
-  onDelete: () => {
+Item.defaultProps = {
+  onDelete: (e) => {
+    console.log(`cработал код ${e}`);
   },
   onSelect: () => {
   },
-} */
+}
 
 export default React.memo(Item);
