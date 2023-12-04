@@ -19,6 +19,11 @@ function Item(props) {
        handleCheckbag(1 , 0)
        handleCheckMoney(props.item.price , 0 )
        
+      } else{
+        setCount(count + 1);
+        handleCheckbag(1 , 0)
+        handleCheckMoney(props.item.price , 0 )
+        
       }
     },
     onDelete : () => {
