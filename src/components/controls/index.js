@@ -1,44 +1,53 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from 'prop-types';
-import './style.css';
-import ModalWindow from "../modal/index.jsx";
-import {checkBag, checkMoney, formatCurrency} from '../UI/formatCurrency.js'
+import React from "react";
+import { morph, formatCurrency } from "../../utils";
+import "./style.css";
+import PropTypes from "prop-types";
+import Button from "../UI/button";
+import { cn as bem } from "@bem-react/classname";
 
-function Controls({list}) {
-  const [open, setOpen] = useState(false)
+function Controls({ openCart, cartItems }) {
+  const cn = bem("Controls");
+  const quantity = cartItems.length;
 
-  const onOpen = () =>{
-    setOpen(!open)
-  }
-  
+  const price = cartItems.reduce(
+    (price, item) => price + item.price * item.quantity,
+    0
+  );
 
   return (
-    <>
-    <div className='Controls'>
-      <div className='Control_item'>
-        <p>В корзине:</p>
-        { ( checkBag == 0) ?
-          ( <h4>Пусто</h4>):
-          ( <h4>{checkBag} товара / { formatCurrency(checkMoney)} &#8381;</h4>)
-        
-
-        }
+    <div className={cn()}>
+      <div className={cn("info")}>
+        <span className={cn("in-cart")}>В корзине:</span>
+        <span className="Highlighted">
+          {cartItems.length === 0 ? (
+            "пусто"
+          ) : (
+            <span>
+              {" "}
+              {quantity} {morph(quantity, "товар", "товара", "товаров")} /{" "}
+              {formatCurrency(price)} &#8381;
+            </span>
+          )}
+        </span>
       </div>
-    <div className='Control'>
-      <button className='Control_BTN' onClick={() => onOpen()}>Перейти</button>
+
+      <Button onClick={openCart} className={cn("button")}>
+        Перейти
+      </Button>
     </div>
-    </div>
-    <ModalWindow open={open} list={list}/>
-    </>
-  )
+  );
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  openCart: PropTypes.func,
+  cartItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.number,
+      title: PropTypes.string,
+      price: PropTypes.number,
+      quantity: PropTypes.number,
+    })
+  ).isRequired,
 };
-
-Controls.defaultProps = {
-  onAdd: () => {}
-}
 
 export default React.memo(Controls);

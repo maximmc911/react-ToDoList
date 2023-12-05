@@ -1,5 +1,3 @@
-import {generateCode} from "./utils";
-
 /**
  * Хранилище состояния приложения
  */
@@ -41,48 +39,65 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
+   * Добавить элемент в корзину
    */
-  addItem() {
-    this.setState({
-      ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
-    })
-  };
 
-  /**
-   * Удаление записи по коду
-   * @param code
-   */
-  deleteItem(code) {
-    this.setState({
-      ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
-    })
-  };
+  addItemToCart(code) {
+    const exists = this.state.cartItems.find(item => item.code === code) !== undefined;
 
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
+    if (exists) {
+      this.setState({
+        ...this.state,
+        cartItems: this.state.cartItems.map(item => {
+          if (item.code === code) {
+            item.quantity++;
+          }
+
+          return {...item};
+        })
       })
+    } else {
+      const item = this.state.list.find(item => item.code === code);
+
+      this.setState({
+        ...this.state,
+        cartItems: [...this.state.cartItems, {...item, quantity: 1}]
+      })
+    }
+  }
+
+  /**
+   * Удалить элемент из корзины
+   */
+
+  deleteItemFromCart(code) {
+    this.setState({
+      ...this.state,
+      cartItems: this.state.cartItems.filter(item => item.code !== code)
     })
   }
+
+  /**
+   * Открыть корзину
+   */
+
+  openCart() {
+    this.setState({
+      ...this.state,
+      openCart: true,
+    })
+  };
+
+  /**
+   * Закрыть корзину
+   */
+
+  closeCart() {
+    this.setState({
+      ...this.state,
+      openCart: false,
+    })
+  };
 }
 
 export default Store;

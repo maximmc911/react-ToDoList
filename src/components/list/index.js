@@ -1,44 +1,30 @@
-import React, { useEffect } from "react";
-import PropTypes from 'prop-types';
-import Item from "../item/index.js";
+import React from "react";
 import './style.css';
+import PropTypes from 'prop-types';
+import Item from "../item";
 
-
-function List({list, onSelectItem, onDeleteItem, ...other}) {
-
-
-
-
-  
+function List({list, showQuantity = false, onAddItemToCart, onDeleteItem}) {
   return (
-    <div className='List'>{
-      list.map(item =>
-        <div key={item.code} className='List-item' >
-         <Item item={item}  onSelect={onSelectItem} close={other} />
+    <div className='List'>
+      {list.map(item => (
+        <div key={item.code} className='List-item'>
+          <Item item={item} showQuantity={showQuantity} onAddItemToCart={onAddItemToCart} onDeleteItem={onDeleteItem}/>
         </div>
-      )}
+      ))}
     </div>
   )
 }
 
 List.propTypes = {
   list: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.number
+    code: PropTypes.number,
+    title: PropTypes.string,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
   })).isRequired,
+  onAddItemToCart: PropTypes.func,
   onDeleteItem: PropTypes.func,
-  onSelectItem: PropTypes.func
+  showQuantity: PropTypes.bool,
 };
-
-List.defaultProps = {
-  onDeleteItem: () => {
-    this.setState({
-      ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      lists: this.state.list.filter(item => item.code !== code)
-    })
-  },
-  onSelectItem: () => {
-  },
-}
 
 export default React.memo(List);
