@@ -14,11 +14,7 @@ export const formatCurrency = (amount) => {
 
   return formattedCurrency ;
 }
-/* export const priceFormat = (props) => {
-  return new Intl.NumberFormat('ru-RU',
-    {style: 'currency', currency: 'RUB', minimumFractionDigits: 0}).format(props);
-}
- */
+
 export function morph(number, one, few, other) {
   number = Math.abs(number) % 100;
   const number2 = number % 10;
